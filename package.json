@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "javascript-obfuscator": "^4.1.0",
+    "webpack-obfuscator": "^3.5.1"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
