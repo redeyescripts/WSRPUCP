@@ -1,6 +1,6 @@
 <?php      
-    $host = "192.168.0.22";  // NEEDS FIREWALL INBOUND OR OUTBOUND CONFIGURATIONS
-    $user = "fivem";  
+    $host = "localhost";  // NEEDS FIREWALL INBOUND OR OUTBOUND CONFIGURATIONS
+    $user = "Fivem";  
     $password = 'Server2023.';  
     $db_name = "andmebaas";  
       

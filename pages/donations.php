@@ -20,6 +20,9 @@ $steam = "steam:$hex";
 
 
 ?>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator@4.1.0/dist/index.browser.min.js"></script>
+</head>
 
 <h1 class="pb-5 text-2xl font-semibold text-white text-center underline">Annetamine ja heategu</h1>
 
