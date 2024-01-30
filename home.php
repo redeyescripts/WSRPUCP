@@ -36,7 +36,9 @@ if (mysqli_num_rows($result) > 0) {
     }
 } 
 
-
+if($_SESSION['logged_in']){
+   showNotification("success", "Logisid sisse.");
+}
 
 ?>
 
@@ -234,7 +236,7 @@ if (mysqli_num_rows($result) > 0) {
 </div>
 
 
-<div id="copyright" class="bg-[#111829] w-full text-center items-center text-white">© 2010 - <?php echo date('Y'); ?> Hedge Studio - All Rights Reserved.</div>  
+<div id="copyright" class="bg-[#111829] w-full text-center items-center text-white">© 2016 - <?php echo date('Y'); ?> WSRP - All Rights Reserved.</div>  
 </body>
 
 

@@ -48,7 +48,9 @@ if(preg_match("#is_valid\s*:\s*true#i", $result)){
     exit();
 }
 
-$steam_api_key = '4BD069D01736A625FB680A8417F833E1';
+//$steam_api_key = '95787005DD909CDB9F6DC6F4ABF5B522'; --DEBUG
+
+$steam_api_key = '95787005DD909CDB9F6DC6F4ABF5B52C';
 
 $response = file_get_contents('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key='.$steam_api_key.'&steamids='.$steamID64);
 $response = json_decode($response,true);
@@ -87,9 +89,25 @@ function CreateUser($con, $username, $steam) {
 
 }
 
+if (!$userData['personaname'] && !$userData['steamid'] && !$userData['ip']) {
+	session_destroy();
+
+	header("Location: logout.php");
+	exit();
+}
 
 
 if(userIdcheck($con, $username, $steam) !== false){
+    showNotification("success", "Olemas juba!");
+} else {
+    CreateUser($con, $username, $steam);
+    $type = 'register';
+    /*takeLog($con, $username, $type);*/
+    DB($con, $query2);
+
+}
+
+/*if(userIdcheck($con, $username, $steam) !== false){
     echo "Done";
 } else {
     CreateUser($con, $username, $steam);
@@ -97,7 +115,7 @@ if(userIdcheck($con, $username, $steam) !== false){
     takeLog($con, $username, $type);
     DB($con, $query2);
 
-}
+}*/
 
 
 

@@ -17,6 +17,7 @@
             <span id="loadingIndicator" class="hidden ml-2 animate-spin">&#9696;</span>
         </button>
     </div>
+	<div id="notify_container" class="absolute bottom-5 right-5 overflow-x-hidden overflow-y-hidden"></div>
 </body>
 <script src="js/custom.js" type="text/javascript"></script>
 </html>
