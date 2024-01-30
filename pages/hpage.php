@@ -80,110 +80,15 @@ if (mysqli_num_rows($result3) > 0) {
 </head>
 <body class="bg-sky-900/70 items-center">
 <br>
-<div id="items" class="md:gap-1 items-center ml-auto md:ml-[40%]">
+<div id="items" class="md:gap-1 items-center ml-auto md:ml-[18%]">
+  <p class="text-white text-2xl md:text-xl text-center gap-3 ml-auto md:mr-[53%] underline mb-0">TERE TULEMAST WSRP KODULEHELE</p>
+  <br>
+  <br>
   <div class="md:ml-[69%] w-screen md:w-2/12">
       <iframe class="md:w-auto w-screen mr-20 md:mr-20 h-96 shadow mb-1" src="https://discord.com/widget?id=1083831868299956305&theme=dark" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
 </div>
-<div id="items" class="md:gap-1 items-center ml-auto md:ml-[40%]">
-    <div id="characters" class="md:w-10/12 md:mr-20 mb-1 md:mb-0"></div>
-    
-    
-    <div class="md:w-3/12 mb-1 md:mb-20">
-      
-      <div class="shadow overflow-y-hidden overflow-x-auto rounded mb-1">
-        <table class="min-w-full divide-y bg-stone-300 text-zinc-700">
-          <h1 class="pb-5 text-2xl font-semibold text-white text-center underline">Kasutajad</h1>
-          <thead class="bg-stone-300 rounded-xl">
-            <tr class="rounded-xl">
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">NIMI</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">TUNNID</th>
-            </tr>
-          </thead>
-          
-            
-            
-            <?php
-            // Assuming you have a valid database connection ($conn)
 
-            $query = "SELECT * FROM users";
-            $result = mysqli_query($con, $query);
-
-            if ($result) {
-                echo '<tbody class="bg-white divide-y divide-zinc-200 rounded-xl">';
-                
-                while ($rows = mysqli_fetch_assoc($result)) {
-                    echo '<tr>';
-                    echo '<td class="text-sm px-6 py-4 whitespace-nowrap">' . $rows['username'] . '</td>';
-                    echo '<td class="text-sm px-6 py-4 whitespace-nowrap">' . $rows['tunnid'] . '</td>';
-                    echo '</tr>';
-                }
-
-                echo '</tbody>';
-                
-                // Free result set
-                mysqli_free_result($result);
-            } else {
-                // Handle query error
-                echo "Error: " . mysqli_error($con);
-            }
-
-            // Close the connection
-            //mysqli_close($con);
-          ?>
-          
-        </table>
-      </div>
-    </div>
-</div>
-<div id="items" class="md:gap-1 ml-auto md:ml-[30%]">
-    <div id="characters" class="md:w-9/12 mb-1 md:mb-0"></div>
-    
-    <div class="md:w-[50%] mb-10 md:mb-0">
-      <div class="shadow overflow-y-hidden overflow-x-auto rounded mb-1">
-        <table class="min-w-full divide-y bg-stone-300 text-zinc-700">
-          <h1 class="pb-5 text-2xl font-semibold text-white text-center underline">Import autod</h1>
-          <thead class="bg-stone-300 rounded-xl">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">NIMI</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">MUDEL</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">KESTVUS</th>
-            </tr>
-          </thead>
-          <?php
-            // Assuming you have a valid database connection ($conn)
-
-            $query = "SELECT * FROM player_imports";
-            $result = mysqli_query($con, $query);
-
-            if ($result) {
-                echo '<tbody class="bg-white divide-y divide-zinc-200 rounded-xl">';
-                
-                while ($rows = mysqli_fetch_assoc($result)) {
-                    echo '<tr>';
-                    echo '<td class="text-sm px-6 py-4 whitespace-nowrap">' . $rows['citizenid'] . '</td>';
-                    echo '<td class="text-sm px-6 py-4 whitespace-nowrap">' . $rows['vehicle'] . '</td>';
-                    echo '<td class="text-sm px-6 py-4 whitespace-nowrap">' . $rows['date'] . '</td>';
-                    echo '</tr>';
-                }
-
-                echo '</tbody>';
-                
-                // Free result set
-                mysqli_free_result($result);
-            } else {
-                // Handle query error
-                echo "Error: " . mysqli_error($con);
-            }
-
-            // Close the connection
-            //mysqli_close($con);
-          ?>
-          
-        </table>
-      </div>
-    </div>
-</div>
 
 </body>
 

@@ -1,7 +1,7 @@
 <?php      
     $host = "localhost";  // NEEDS FIREWALL INBOUND OR OUTBOUND CONFIGURATIONS
-    $user = "l";  
-    $password = '.';  
+    $user = "fivem";  
+    $password = 'Server2023.';  
     $db_name = "andmebaas";  
       
     $con = mysqli_connect($host, $user, $password, $db_name);
