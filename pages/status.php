@@ -77,6 +77,7 @@ if (mysqli_num_rows($result3) > 0) {
 <head>
   <script src="js/script.js" type="text/javascript"></script>
 
+
 </head>
 <body class="bg-sky-900/70 items-center">
 <br>
@@ -85,10 +86,10 @@ if (mysqli_num_rows($result3) > 0) {
     <div id="characters" class="md:w-10/12 md:mr-20 mb-1 md:mb-0"></div>
     
     
-    <div class="md:w-4/12 mt-10 md:mt-0">
+    <div class="md:w-4/12 mt-10 md:mt-0" id="table">
     <h1 class="pb-5 text-2xl font-semibold text-white text-center underline items-center">Serveri staatus</h1>
       <div class="shadow overflow-y-hidden overflow-x-auto rounded mb-1">
-        <table class="min-w-full divide-y bg-stone-300 text-zinc-700">
+        <table class="min-w-full divide-y bg-stone-300 text-zinc-700" id="andmed">
           <h1 class="pb-5 text-2xl font-semibold text-white text-center">Kasutajad</h1>
           <thead class="bg-stone-300 rounded-xl">
             <tr class="rounded-xl">
@@ -135,10 +136,11 @@ if (mysqli_num_rows($result3) > 0) {
 <div id="items" class="md:gap-1 ml-auto md:ml-[30%]">
     <div id="characters" class="md:w-9/12 mb-1 md:mb-0"></div>
     
-    <div class="md:w-[50%] mt-10 md:mt-0">
+    <div class="md:w-[50%] mt-10 md:mt-0" id="table">
       <div class="shadow overflow-y-hidden overflow-x-auto rounded mb-1">
-        <table class="min-w-full divide-y bg-stone-300 text-zinc-700">
-          <h1 class="pb-5 text-2xl font-semibold text-white text-center">Import autod</h1>
+        <table class="min-w-full divide-y bg-stone-300 text-zinc-700" id="andmed">
+            <h1 class="pb-5 text-2xl font-semibold text-white text-center">Import autod</h1>
+          
           <thead class="bg-stone-300 rounded-xl">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">NIMI</th>
@@ -183,4 +185,12 @@ if (mysqli_num_rows($result3) > 0) {
 
 </body>
 
-<div id="notify_container" class="absolute bottom-5 right-5 overflow-x-hidden overflow-y-hidden"></div>
+<div id="notification-container" class="fixed top-0 right-0 m-4"></div>
+
+<script>
+    $(document).ready(function(){
+        if($('#andmed tr').length >= 5 ) {
+            $('#table').addClass('add-scroll');
+        }
+    });
+</script>

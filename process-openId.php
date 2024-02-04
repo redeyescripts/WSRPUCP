@@ -63,6 +63,9 @@ $_SESSION['logged_in'] = true;
 
 
 $_SESSION['userData'] = [
+    'cooldown'=> false,
+    'wlstatus'=> false,
+    'points'=> 0,
     'ip'=>$_SERVER['REMOTE_ADDR'],
     'steam_id'=>$userData['steamid'],
     'name'=>$userData['personaname'],
@@ -98,7 +101,7 @@ if (!$userData['personaname'] && !$userData['steamid'] && !$userData['ip']) {
 
 
 if(userIdcheck($con, $username, $steam) !== false){
-    showNotification("success", "Olemas juba!");
+    echo '<script>alert("User alredy registered!")</script>';  
 } else {
     CreateUser($con, $username, $steam);
     $type = 'register';
@@ -107,15 +110,7 @@ if(userIdcheck($con, $username, $steam) !== false){
 
 }
 
-/*if(userIdcheck($con, $username, $steam) !== false){
-    echo "Done";
-} else {
-    CreateUser($con, $username, $steam);
-    $type = 'register';
-    takeLog($con, $username, $type);
-    DB($con, $query2);
 
-}*/
 
 
 

@@ -30,6 +30,35 @@
         
     }
 
+    function WLIDCheck($con, $steam) {
+
+        $sql = "SELECT * FROM player_whitelists WHERE identifier = ?;";
+        $stmt = mysqli_stmt_init($con);
+
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header('location: home.php');
+        }
+
+        mysqli_stmt_bind_param($stmt, "s", $steam);
+
+        mysqli_stmt_execute($stmt);
+
+        $resdata = mysqli_stmt_get_result($stmt);
+
+
+        if ($row = mysqli_fetch_assoc($resdata)) {
+            # code...
+            return $row;
+        } else {
+            $result = false;
+            return $result;
+        }
+
+        mysqli_stmt_close($stmt);
+        
+    }
+
     function whitelistCheck($con, $steam, $status) {
 
         $sql = "SELECT * FROM whitelist WHERE status = ? AND steamhex = ?;";
@@ -112,7 +141,24 @@
     function DB($con, $query) {
         $con->query($query);
     }
+    function showNotificationV2($message, $type) {
+         // Set notification type classes
+        $notificationContainer = '<div class="rounded p-4 mb-4 transition duration-300 ease-in-out transform';
 
+        if ($type === 'success') {
+            $notificationContainer .= ' bg-green-500 text-white';
+        } elseif ($type === 'error') {
+            $notificationContainer .= ' bg-red-500 text-white';
+        }
+
+        $notificationContainer .= '"><p>' . $message . '</p></div>';
+
+        // Display the notification
+        echo $notificationContainer;
+
+        // Delayed redirection
+        exit();
+    }
 
     function showNotification($type, $message) {
         $notification = '';
@@ -172,7 +218,7 @@
         echo '
         <script>
             setTimeout(function () {
-                document.querySelector(".flex.min-w-96.break-all.items-center.p-4.text-zinc-500.bg-white.rounded.shadow.mb-1").fadeOut(300);
+                jQuery(".flex.min-w-96.break-all.items-center.p-4.text-zinc-500.bg-white.rounded.shadow.mb-1").fadeOut(300);
             }, 5000);
         </script>
         ';
@@ -183,7 +229,94 @@
     // showNotification('info', 'This is an info message');
     // showNotification('error', 'This is an error message');
     
-  
+    function PointsRenew($con, $hex, $userpoints, $amount) {
+        $query1 = "SELECT punktid FROM users WHERE steamhex = ?";
+        $stmt1 = mysqli_prepare($con, $query1);
+        mysqli_stmt_bind_param($stmt1, "s", $hex);
+        mysqli_stmt_execute($stmt1);
+        $result = mysqli_stmt_get_result($stmt1);
+    
+        $stmt2 = null; // Declaration here
+
+        if ($amount == $userpoints) {
+            echo '
+            <script>
+                alert("Ei saa eemaldada punkte sest kasutaja miinusesse lubamine on keelatud!");
+            </script>';
+            return false; // Indicate failure
+        }
+    
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $currentPoints = $row['punktid'];
+            $newPoints = max(0, $currentPoints - $amount); // Ensure points don't go below zero
+            $query2 = "UPDATE users SET punktid=? WHERE steamhex = ?";
+            $stmt2 = mysqli_prepare($con, $query2);
+            mysqli_stmt_bind_param($stmt2, "is", $newPoints, $hex);
+            mysqli_stmt_execute($stmt2);
+    
+            $_SESSION['userData']['points'] = $newPoints;
+        }
+    
+        mysqli_stmt_close($stmt1);
+    
+        // Close $stmt2 only if it has been initialized
+        if ($stmt2) {
+            mysqli_stmt_close($stmt2);
+        }
+    }
+
+    
+
+    function PointsAdd($con, $hex, $amount) {
+        $query1 = "SELECT punktid FROM users WHERE steamhex = ?";
+        $stmt1 = mysqli_prepare($con, $query1);
+        mysqli_stmt_bind_param($stmt1, "s", $hex);
+        mysqli_stmt_execute($stmt1);
+        $result = mysqli_stmt_get_result($stmt1);
+    
+        if (!$result) {
+            // Handle database error here
+            return false;
+        }
+    
+        $stmt2 = null; // Declaration here
+    
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $currentPoints = $row['punktid'];
+            $newPoints = $currentPoints + $amount; // Adding points
+    
+            $query2 = "UPDATE users SET punktid=? WHERE steamhex = ?";
+            $stmt2 = mysqli_prepare($con, $query2);
+    
+            if (!$stmt2) {
+                // Handle database error here
+                return false;
+            }
+    
+            mysqli_stmt_bind_param($stmt2, "is", $newPoints, $hex);
+            mysqli_stmt_execute($stmt2);
+    
+            $_SESSION['userData']['points'] = $newPoints;
+        }
+    
+        mysqli_stmt_close($stmt1);
+    
+        // Close $stmt2 only if it has been initialized
+        if ($stmt2) {
+            mysqli_stmt_close($stmt2);
+        }
+    
+        return true; // Success
+    }
+    
+    
+    
+
+
+
+
 
 
 

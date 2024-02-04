@@ -36,93 +36,93 @@ xhr.open('GET', 'pages/' + page + '.php' + params, true);
 xhr.send();
 }
 
-whitelistSubmit = function() {
-var formData = $("#questionForm").serialize();
+showNotificationV2 = function(message, type) {
+    const notificationContainer = document.getElementById('notification-container');
 
-$.ajax({
-    url: "pages/whitelist.php",
-    type: "post",
-    data: formData,
-    success: function(response) {
-        console.log('Raw response:', response);
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.classList.add('rounded', 'p-4', 'mb-4', 'transition', 'duration-300', 'ease-in-out', 'transform');
 
-        try {
-            response = JSON.parse(response);
-
-            if (response.status === 'success') {
-                $("#result").html('<p class="text-green-500 text-center">Whitelist has been successfully created!</p>');
-            } else {
-                $("#result").html('<p class="text-red-500 text-center">Whitelist creation failed. Details: ' + JSON.stringify(response.faults) + '</p>');
-            }
-        } catch (e) {
-            console.error('Error parsing JSON:', e);
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error('Error:', xhr.responseText);
-        $("#result").html('<p class="text-red-500 text-center">An error occurred while creating the whitelist.</p>');
+    // Set notification type classes
+    if (type === 'success') {
+        notification.classList.add('bg-green-500', 'text-white');
+    } else if (type === 'error') {
+        notification.classList.add('bg-red-500', 'text-white');
     }
-});
+
+    // Set notification content
+    notification.innerHTML = `<p>${message}</p>`;
+
+    // Append notification to container
+    notificationContainer.appendChild(notification);
+
+    // Automatically remove the notification after a few seconds (adjust as needed)
+    setTimeout(() => {
+        notification.classList.add('translate-y-8', 'opacity-0');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000); // 5000 milliseconds (5 seconds)
 }
 
 showNotification = function(type, message) {
-let $notification
+    let $notification
 
-if (type == 'success') {
-    $notification = $(`
-        <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
-            <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded shadow">
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Check icon</span>
+    if (type == 'success') {
+        $notification = $(`
+            <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 rounded shadow">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Check icon</span>
+                </div>
+
+                <div class="ml-3 text-sm font-normal">${message}</div>
+
+                <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-success" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
             </div>
+        `);
+    } else if (type == 'info') {
+        $notification = $(`
+            <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-sky-500 bg-sky-100 rounded shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+                    <span class="sr-only">Info icon</span>
+                </div>
 
-            <div class="ml-3 text-sm font-normal">${message}</div>
+                <div class="ml-3 text-sm font-normal">${message}</div>
 
-            <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-success" aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </button>
-        </div>
-    `);
-} else if (type == 'info') {
-    $notification = $(`
-        <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
-            <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-sky-500 bg-sky-100 rounded shadow">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
-                <span class="sr-only">Info icon</span>
+                <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-warning" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
             </div>
+        `);
+    } else if (type == 'error') {
+        $notification = $(`
+            <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
+                <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-red-500 bg-red-100 rounded shadow">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Error icon</span>
+                </div>
 
-            <div class="ml-3 text-sm font-normal">${message}</div>
+                <div class="ml-3 text-sm font-normal">${message}</div>
 
-            <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-warning" aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </button>
-        </div>
-    `);
-} else if (type == 'error') {
-    $notification = $(`
-        <div class="flex min-w-96 break-all items-center p-4 text-zinc-500 bg-white rounded shadow mb-1" role="alert">
-            <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-red-500 bg-red-100 rounded shadow">
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Error icon</span>
+                <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-danger" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
             </div>
+        `);
+    }
 
-            <div class="ml-3 text-sm font-normal">${message}</div>
+    $('#notify_container').append($notification);
 
-            <button onclick="this.parentElement.remove();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-zinc-400 hover:text-zinc-900 rounded focus:ring-2 focus:ring-zinc-300 p-1.5 hover:bg-zinc-100 inline-flex h-8 w-8" data-dismiss-target="#toast-danger" aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </button>
-        </div>
-    `);
-}
-
-$('#notify_container').append($notification);
-
-setTimeout(function () {
-    $notification.fadeOut(300)
-}, 5000)
+    setTimeout(function () {
+        $notification.fadeOut(300)
+    }, 5000)
 }
 
 capitalizeFirstLetter = function(str) {
@@ -427,4 +427,6 @@ $.post('pages/donations.php', { type: 'vehicleSound', plate: $('#selectedSoundVe
     showNotification(response.type, response.message)
 });
 }
+
+
 });

@@ -85,11 +85,11 @@ if (mysqli_num_rows($result3) > 0) {
   <br>
   <br>
   <div class="md:ml-[69%] w-screen md:w-2/12">
-      <iframe class="md:w-auto w-screen mr-20 md:mr-20 h-96 shadow mb-1" src="https://discord.com/widget?id=1083831868299956305&theme=dark" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      <iframe class="md:w-auto w-screen mr-20 md:mr-20 h-96 shadow mb-1" src="https://discord.com/widget?id=1005098893698138136&theme=dark" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
   </div>
 </div>
 
 
 </body>
 
-<div id="notify_container" class="absolute bottom-5 right-5 overflow-x-hidden overflow-y-hidden"></div>
+<div id="notification-container" class="fixed top-0 right-0 m-4"></div>

@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
 <div class="px-4 w-full h-screen ">
 	<h1 class="pb-5 text-2xl font-semibold text-white underline text-center">Reeglid</h1>
 	<div class="flex justify-center w-auto h-full items-center">
-		<h1 class="pb-5 text-2xl font-semibold text-white text-center">Reeglid trükkimisel</h1>
+    <iframe class="bg-gray w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vRA9pB1sJPq-H_og7MYSRdUaBYSqwgse1U8wCXYq4UjnXwvVXeDDOF2WSvcoC9fTULaIffWeP2RiIhr/pub?embedded=true"></iframe>
 	</div>
 </div>
       
